@@ -276,10 +276,28 @@ document.addEventListener('DOMContentLoaded', function() {
 }); 
 
 const youtubeActionBtn = document.getElementById('youtube-action-btn');
+const youtubeResultContainer = document.getElementById('youtube-result-container');
+const youtubeResultContent = document.getElementById('youtube-result-content');
+const youtubeLoading = document.getElementById('youtube-loading');
 
+// Listen for messages from content scripts
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+  if (request.action === 'youtubeTranscriptSummary') {
+    // Hide loading indicator
+    youtubeLoading.classList.add('hidden');
+    
+    // Display the summary
+    youtubeResultContainer.classList.remove('hidden');
+    youtubeResultContent.textContent = request.summary;
+  }
+});
 
 youtubeActionBtn.addEventListener('click', async function() {
   try {
+    // Reset UI
+    youtubeResultContainer.classList.add('hidden');
+    youtubeLoading.classList.remove('hidden');
+    
     // Get active tab
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     
@@ -291,14 +309,42 @@ youtubeActionBtn.addEventListener('click', async function() {
         function: interactWithYouTubePage
       });
     } else {
+      youtubeLoading.classList.add('hidden');
       alert('This is not a YouTube video page.');
     }
   } catch (error) {
+    youtubeLoading.classList.add('hidden');
     console.error('Error interacting with YouTube page:', error);
   }
 });
 
-function interactWithYouTubePage() {
+async function interactWithYouTubePage() {
+  // Define the summarizeContent function inside the injected context
+  async function summarizeContent(content) {
+    const apiUrl = 'https://hackday.app.n8n.cloud/webhook/summarize';
+    
+    const response = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ data: content })
+    });
+    
+    if (!response.ok) {
+      throw new Error(`API error: ${response.status} ${response.statusText}`);
+    }
+    
+    const data = await response.json();
+    
+    // The API returns data in the format [{ output: "summary text" }]
+    if (Array.isArray(data) && data.length > 0 && data[0].output) {
+      return data[0].output;
+    } else {
+      throw new Error('Unexpected API response format');
+    }
+  }
+
   // Click the "More" button in the description if it exists
   const moreButton = document.querySelector('#expand.button.style-scope.ytd-text-inline-expander');
   if (moreButton) {
@@ -311,15 +357,42 @@ function interactWithYouTubePage() {
     transcriptButton.click();
 
     // Wait for the transcript to load and then read the text
-    setTimeout(() => {
+    setTimeout(async () => {
       const transcriptSegments = document.querySelectorAll('.segment-text.style-scope.ytd-transcript-segment-renderer');
       let transcriptText = '';
       transcriptSegments.forEach(segment => {
         transcriptText += segment.textContent + '\n';
       });
 
-      // Display the transcript text
-      alert(transcriptText);
+      if (transcriptText) {
+        try {
+          // Call summarizeContent with the transcript text
+          const summarizeTranscript = await summarizeContent(transcriptText);
+          
+          // Send the summary back to the extension popup
+          chrome.runtime.sendMessage({
+            action: 'youtubeTranscriptSummary',
+            summary: summarizeTranscript
+          });
+        } catch (error) {
+          console.error('Error summarizing transcript:', error);
+          chrome.runtime.sendMessage({
+            action: 'youtubeTranscriptSummary',
+            summary: 'Error: ' + error.message
+          });
+        }
+      } else {
+        chrome.runtime.sendMessage({
+          action: 'youtubeTranscriptSummary',
+          summary: 'No transcript found for this video.'
+        });
+      }
+      
     }, 2000); // Adjust timeout as needed for transcript to load
+  } else {
+    chrome.runtime.sendMessage({
+      action: 'youtubeTranscriptSummary',
+      summary: 'Could not find transcript button for this video.'
+    });
   }
 }

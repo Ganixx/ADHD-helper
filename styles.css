@@ -172,6 +172,10 @@ h2:after {
   box-shadow: 0 5px 10px rgba(230, 92, 0, 0.3);
 }
 
+#summarize-btn {
+  margin-bottom: 2px;
+}
+
 .action-button:active {
   transform: translateY(0);
   box-shadow: 0 2px 4px rgba(230, 92, 0, 0.2);
