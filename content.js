@@ -3,7 +3,7 @@
 // reading rulers, or other accessibility features here
 
 // For now, this file is mainly a placeholder for future functionality
-console.log('Focus Assist content script loaded'); 
+console.log('SimplifyIt content script loaded'); 
 
 // It applies any saved reading preferences automatically on page load
 

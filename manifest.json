@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Focus Assist - ADHD & Dyslexia Helper",
+  "name": "SimplifyIt - ADHD & Dyslexia Helper",
   "version": "1.0.0",
   "description": "A Chrome extension to help users with ADHD, dyslexia, and other learning differences",
   "permissions": [
@@ -10,7 +10,7 @@
   ],
   "action": {
     "default_popup": "popup.html",
-    "default_title": "Focus Assist"
+    "default_title": "SimplifyIt"
   },
   "content_scripts": [
     {

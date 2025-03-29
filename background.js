@@ -3,7 +3,7 @@
 
 // Initialize the extension when installed
 chrome.runtime.onInstalled.addListener(() => {
-  console.log('Focus Assist extension installed');
+  console.log('SimplifyIt extension installed');
   
   // Set default settings if needed
   chrome.storage.sync.get('settings', (data) => {

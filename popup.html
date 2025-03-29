@@ -3,12 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Focus Assist</title>
+  <title>SimplifyIt</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="container">
-    <h1>Focus Assist</h1>
+    <div class="title-container">
+      <img src="images/fox.png" alt="Fox Logo" class="fox-logo">
+      <h1>SimplifyIt</h1>
+    </div>
     <div class="feature-section">
       <button id="summarize-btn" class="action-button">Summarize Page</button>
       <div id="loading" class="loading hidden">
@@ -16,7 +19,9 @@
         <p>Summarizing...</p>
       </div>
       <div id="summary-container" class="result-container hidden">
-        <h2>Summary</h2>
+        <div class="heading-container">
+          <h2>Summary</h2>
+        </div>
         <div id="summary-content"></div>
       </div>
       <div id="error-container" class="error-message hidden">
@@ -25,7 +30,9 @@
     </div>
     
     <div class="feature-section reading-features">
-      <h2>Reading Features</h2>
+      <div class="heading-container">
+        <h2>Reading Features</h2>
+      </div>
       
       <div class="option-group">
         <label for="font-selector">Font Type:</label>
@@ -39,7 +46,7 @@
       </div>
       
       <div class="option-group">
-        <label for="font-size">Font Size:</label>
+        <label for="font-size">Font Size: <span class="emoji-label">📏</span></label>
         <div class="range-control-container">
           <input type="range" id="font-size" min="0" max="100" value="50" class="range-control">
           <span id="font-size-value">50%</span>
@@ -47,7 +54,7 @@
       </div>
       
       <div class="option-group">
-        <label for="letter-spacing">Letter Spacing:</label>
+        <label for="letter-spacing">Letter Spacing: <span class="emoji-label">↔️</span></label>
         <div class="range-control-container">
           <input type="range" id="letter-spacing" min="0" max="10" value="0" class="range-control">
           <span id="letter-spacing-value">0px</span>
@@ -55,7 +62,7 @@
       </div>
       
       <div class="option-group">
-        <label for="line-height">Line Height:</label>
+        <label for="line-height">Line Height: <span class="emoji-label">↕️</span></label>
         <div class="range-control-container">
           <input type="range" id="line-height" min="0" max="100" value="50" class="range-control">
           <span id="line-height-value">50%</span>
@@ -63,7 +70,7 @@
       </div>
       
       <div class="button-container">
-        <button id="reset-reading-settings" class="reset-button">Reset to Default</button>
+        <button id="reset-reading-settings" class="reset-button">Reset</button>
         <button id="apply-reading-settings" class="action-button">Apply Settings</button>
       </div>
     </div>

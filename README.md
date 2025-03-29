@@ -1,4 +1,4 @@
-# Focus Assist - Chrome Extension for ADHD & Dyslexia
+# SimplifyIt - Chrome Extension for ADHD & Dyslexia
 
 A Chrome extension to help users with ADHD, dyslexia, and other learning differences. Similar to Helperbird but focused on simplicity and core accessibility features.
 
@@ -27,7 +27,7 @@ A Chrome extension to help users with ADHD, dyslexia, and other learning differe
 ## Usage
 
 1. Navigate to any webpage you want to summarize
-2. Click the Focus Assist extension icon in your toolbar
+2. Click the SimplifyIt extension icon in your toolbar
 3. Click the "Summarize Page" button
 4. The extension will extract page content and display a concise summary
 
