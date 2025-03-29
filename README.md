@@ -1,6 +1,6 @@
 # SimplifyIt - Chrome Extension for ADHD & Dyslexia
 
-A Chrome extension to help users with ADHD, dyslexia, and other learning differences. Similar to Helperbird but focused on simplicity and core accessibility features.
+A Chrome extension to help users with ADHD, dyslexia, and other learning differences. Similar to Helperbird but focused on simplicity and core accessibility features, free and open for all.
 
 ## Current Features
 
