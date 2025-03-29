@@ -8,9 +8,19 @@
     "activeTab",
     "scripting"
   ],
+  "icons": {
+    "16": "images/fox.png",
+    "48": "images/fox.png",
+    "128": "images/fox.png"
+  },
   "action": {
     "default_popup": "popup.html",
-    "default_title": "SimplifyIt"
+    "default_title": "SimplifyIt",
+    "default_icon": {
+      "16": "images/fox.png",
+      "48": "images/fox.png",
+      "128": "images/fox.png"
+    }
   },
   "content_scripts": [
     {
