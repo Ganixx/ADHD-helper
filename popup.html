@@ -23,6 +23,57 @@
         <p id="error-text"></p>
       </div>
     </div>
+    
+    <div class="feature-section reading-features">
+      <h2>Reading Features</h2>
+      
+      <div class="option-group">
+        <label for="font-selector">Font Type:</label>
+        <select id="font-selector" class="select-control">
+          <option value="default">Default</option>
+          <option value="opendyslexic">OpenDyslexic</option>
+          <option value="comic-sans">Comic Sans MS</option>
+          <option value="arial">Arial</option>
+          <option value="verdana">Verdana</option>
+        </select>
+      </div>
+      
+      <div class="option-group">
+        <label for="font-size">Font Size:</label>
+        <div class="range-control-container">
+          <input type="range" id="font-size" min="100" max="200" value="100" class="range-control">
+          <span id="font-size-value">100%</span>
+        </div>
+      </div>
+      
+      <div class="option-group">
+        <label for="letter-spacing">Letter Spacing:</label>
+        <div class="range-control-container">
+          <input type="range" id="letter-spacing" min="0" max="10" value="0" class="range-control">
+          <span id="letter-spacing-value">0px</span>
+        </div>
+      </div>
+      
+      <div class="option-group">
+        <label for="line-height">Line Height:</label>
+        <div class="range-control-container">
+          <input type="range" id="line-height" min="100" max="200" value="150" class="range-control">
+          <span id="line-height-value">150%</span>
+        </div>
+      </div>
+      
+      <div class="option-group">
+        <div class="checkbox-container">
+          <input type="checkbox" id="focus-mode" class="checkbox-control">
+          <label for="focus-mode">Focus Mode (Highlight Current Line)</label>
+        </div>
+      </div>
+      
+      <div class="button-container">
+        <button id="reset-reading-settings" class="reset-button">Reset to Default</button>
+        <button id="apply-reading-settings" class="action-button">Apply Settings</button>
+      </div>
+    </div>
   </div>
   <script src="popup.js"></script>
 </body>

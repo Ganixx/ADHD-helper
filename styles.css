@@ -112,4 +112,107 @@ h2 {
 /* Utility Classes */
 .hidden {
   display: none;
+}
+
+/* Reading Features Section */
+.reading-features {
+  margin-top: 16px;
+}
+
+.option-group {
+  margin-bottom: 16px;
+}
+
+.option-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+.select-control {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 4px;
+  border: 1px solid #dce0e6;
+  background-color: #fff;
+  font-size: 14px;
+  color: #333;
+}
+
+.range-control-container {
+  display: flex;
+  align-items: center;
+}
+
+.range-control {
+  flex: 1;
+  height: 6px;
+  background-color: #dce0e6;
+  border-radius: 3px;
+  outline: none;
+  -webkit-appearance: none;
+}
+
+.range-control::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: #3498db;
+  cursor: pointer;
+}
+
+.range-control-container span {
+  min-width: 40px;
+  text-align: right;
+  margin-left: 12px;
+  font-size: 14px;
+  color: #555;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox-control {
+  margin-right: 8px;
+  width: 16px;
+  height: 16px;
+}
+
+#apply-reading-settings {
+  margin-top: 8px;
+}
+
+.button-container {
+  display: flex;
+  gap: 8px;
+}
+
+.reset-button {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  flex: 1;
+  transition: background-color 0.2s;
+}
+
+.reset-button:hover {
+  background-color: #c0392b;
+}
+
+.reset-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.5);
+}
+
+.action-button {
+  flex: 2;
 } 
