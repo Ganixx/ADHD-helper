@@ -274,3 +274,52 @@ document.addEventListener('DOMContentLoaded', function() {
     return true;
   }
 }); 
+
+const youtubeActionBtn = document.getElementById('youtube-action-btn');
+
+
+youtubeActionBtn.addEventListener('click', async function() {
+  try {
+    // Get active tab
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    
+    // Check if the URL is a YouTube video page
+    if (tab.url.includes('youtube.com/watch')) {
+      // Execute script in the active tab to interact with the page
+      await chrome.scripting.executeScript({
+        target: { tabId: tab.id },
+        function: interactWithYouTubePage
+      });
+    } else {
+      alert('This is not a YouTube video page.');
+    }
+  } catch (error) {
+    console.error('Error interacting with YouTube page:', error);
+  }
+});
+
+function interactWithYouTubePage() {
+  // Click the "More" button in the description if it exists
+  const moreButton = document.querySelector('#expand.button.style-scope.ytd-text-inline-expander');
+  if (moreButton) {
+    moreButton.click();
+  }
+
+  // Click the "Transcript" button if it exists
+  const transcriptButton = document.querySelector('.yt-spec-button-shape-next.yt-spec-button-shape-next--outline.yt-spec-button-shape-next--call-to-action.yt-spec-button-shape-next--size-m');
+  if (transcriptButton) {
+    transcriptButton.click();
+
+    // Wait for the transcript to load and then read the text
+    setTimeout(() => {
+      const transcriptSegments = document.querySelectorAll('.segment-text.style-scope.ytd-transcript-segment-renderer');
+      let transcriptText = '';
+      transcriptSegments.forEach(segment => {
+        transcriptText += segment.textContent + '\n';
+      });
+
+      // Display the transcript text
+      alert(transcriptText);
+    }, 2000); // Adjust timeout as needed for transcript to load
+  }
+}
