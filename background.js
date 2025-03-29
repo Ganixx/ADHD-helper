@@ -9,7 +9,7 @@ chrome.runtime.onInstalled.addListener(() => {
   chrome.storage.sync.get('settings', (data) => {
     if (!data.settings) {
       const defaultSettings = {
-        fontSize: 'medium',
+        fontSize: '50',
         fontType: 'default',
         colorMode: 'default'
       };

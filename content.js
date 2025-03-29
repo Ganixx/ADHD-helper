@@ -69,8 +69,13 @@ function applyReadingFeatures(settings) {
   }
   
   // Font size setting
-  if (settings.fontSize > 100) {
-    const sizeFactor = settings.fontSize / 100;
+  if (settings.fontSize > 0) {
+    // Adjust so that 50 is medium size (1.0em)
+    // Values 0-50 scale from 0.5em to 1.0em
+    // Values 51-100 scale from 1.0em to 2.0em
+    const sizeFactor = settings.fontSize <= 50 
+      ? 0.5 + (settings.fontSize / 100) 
+      : 1.0 + ((settings.fontSize - 50) / 50);
     css += `body, p, div, span, li, a { font-size: ${sizeFactor}em !important; }\n`;
   }
   
@@ -80,18 +85,9 @@ function applyReadingFeatures(settings) {
   }
   
   // Line height setting
-  if (settings.lineHeight !== 150) {
-    css += `body, p, div, span, li { line-height: ${settings.lineHeight}% !important; }\n`;
-  }
-  
-  // Focus mode setting
-  if (settings.focusMode) {
-    css += `
-      p:hover, li:hover, div:hover {
-        background-color: rgba(255, 255, 100, 0.3) !important;
-        transition: background-color 0.3s ease;
-      }
-    `;
+  if (settings.lineHeight > 0) {
+    const lineHeightValue = (settings.lineHeight / 100) * 200 + 100; // Maps 0-100 to 100-300% for line height
+    css += `body, p, div, span, li { line-height: ${lineHeightValue}% !important; }\n`;
   }
   
   // Apply the styles

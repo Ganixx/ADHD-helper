@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', function() {
   const letterSpacingValue = document.getElementById('letter-spacing-value');
   const lineHeight = document.getElementById('line-height');
   const lineHeightValue = document.getElementById('line-height-value');
-  const focusMode = document.getElementById('focus-mode');
   const applyReadingSettings = document.getElementById('apply-reading-settings');
   const resetReadingSettings = document.getElementById('reset-reading-settings');
   
@@ -39,10 +38,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Default settings
     const defaultSettings = {
       font: 'default',
-      fontSize: '100',
+      fontSize: '50',
       letterSpacing: '0',
-      lineHeight: '150',
-      focusMode: false
+      lineHeight: '50'
     };
     
     // Apply default values to UI
@@ -53,7 +51,6 @@ document.addEventListener('DOMContentLoaded', function() {
     letterSpacingValue.textContent = `${defaultSettings.letterSpacing}px`;
     lineHeight.value = defaultSettings.lineHeight;
     lineHeightValue.textContent = `${defaultSettings.lineHeight}%`;
-    focusMode.checked = defaultSettings.focusMode;
     
     // Save default settings to storage
     await chrome.storage.sync.set({ readingSettings: defaultSettings });
@@ -67,8 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
       font: fontSelector.value,
       fontSize: fontSize.value,
       letterSpacing: letterSpacing.value,
-      lineHeight: lineHeight.value,
-      focusMode: focusMode.checked
+      lineHeight: lineHeight.value
     };
     
     // Save settings to storage
@@ -179,7 +175,6 @@ document.addEventListener('DOMContentLoaded', function() {
         letterSpacingValue.textContent = `${data.readingSettings.letterSpacing}px`;
         lineHeight.value = data.readingSettings.lineHeight;
         lineHeightValue.textContent = `${data.readingSettings.lineHeight}%`;
-        focusMode.checked = data.readingSettings.focusMode;
       }
     } catch (error) {
       console.error('Error loading reading settings:', error);
@@ -251,8 +246,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Font size setting
-    if (settings.fontSize > 100) {
-      const sizeFactor = settings.fontSize / 100;
+    if (settings.fontSize > 0) {
+      // Adjust so that 50 is medium size (1.0em)
+      // Values 0-50 scale from 0.5em to 1.0em
+      // Values 51-100 scale from 1.0em to 2.0em
+      const sizeFactor = settings.fontSize <= 50 
+        ? 0.5 + (settings.fontSize / 100) 
+        : 1.0 + ((settings.fontSize - 50) / 50);
       css += `body, p, div, span, li, a { font-size: ${sizeFactor}em !important; }\n`;
     }
     
@@ -262,18 +262,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Line height setting
-    if (settings.lineHeight !== 150) {
-      css += `body, p, div, span, li { line-height: ${settings.lineHeight}% !important; }\n`;
-    }
-    
-    // Focus mode setting
-    if (settings.focusMode) {
-      css += `
-        p:hover, li:hover, div:hover {
-          background-color: rgba(255, 255, 100, 0.3) !important;
-          transition: background-color 0.3s ease;
-        }
-      `;
+    if (settings.lineHeight > 0) {
+      const lineHeightValue = (settings.lineHeight / 100) * 200 + 100; // Maps 0-100 to 100-300% for line height
+      css += `body, p, div, span, li { line-height: ${lineHeightValue}% !important; }\n`;
     }
     
     // Apply the styles
