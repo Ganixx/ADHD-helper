@@ -4,9 +4,12 @@ require('dotenv').config();
 const StatusCodes=require('http-status-codes');
 const { GoogleGenAI } = require("@google/genai");
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+const cors = require('cors');
+app.use(cors());
+
 
 async function summarize(data) {
-  const instructions=`Summarize the following content "${data}" And just generate plain text of only alphabets ans spaces, Caps allowd, puncatations allowed., limit to high level overview, like 150 words would be enough`;
+  const instructions=`Summarize the following content "${data}" And just generate plain text of only alphabets and spaces, propper caps, puncatations allowed., limit to high level overview, like 150 words would be enough`;
   const response = await ai.models.generateContent({
     model: "gemini-2.0-flash",
     contents: instructions,
@@ -16,12 +19,16 @@ async function summarize(data) {
 
 
 app.use(express.json());
+
+app.get("/", (req, res) => res.send("Express on Vercel"));
 app.post('/api',async (req,res)=>{
   const summary=await summarize(req.body.data);
-  res.status(StatusCodes.ACCEPTED).json({success:true, data:summary})
+  res.status(StatusCodes.ACCEPTED).json([{success:true, output:summary}])
 })
 
-app.listen(5000, ()=>{
-  console.log('listening on port 5000');
+app.listen(3000, ()=>{
+  console.log('listening on port 3000');
 })
 //
+
+module.exports=app;

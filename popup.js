@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Function to send content to the summarization API
   async function summarizeContent(content) {
-    const apiUrl = 'https://cilaaantro.app.n8n.cloud/webhook-test/summarize';
+    const apiUrl = 'https://adhdapi.vercel.app/api';
     
     const response = await fetch(apiUrl, {
       method: 'POST',
@@ -321,7 +321,7 @@ youtubeActionBtn.addEventListener('click', async function() {
 async function interactWithYouTubePage() {
   // Define the summarizeContent function inside the injected context
   async function summarizeContent(content) {
-    const apiUrl = 'https://cilaaantro.app.n8n.cloud/webhook-test/summarize';
+    const apiUrl = 'https://adhdapi.vercel.app/api';
     
     const response = await fetch(apiUrl, {
       method: 'POST',
@@ -358,7 +358,7 @@ async function interactWithYouTubePage() {
 
     // Wait for the transcript to load and then read the text
     setTimeout(async () => {
-      // const start = Date.now();
+      const start = Date.now();
       const transcriptSegments = document.querySelectorAll('.segment-text.style-scope.ytd-transcript-segment-renderer');
       let transcriptText = '';
 
@@ -367,10 +367,8 @@ async function interactWithYouTubePage() {
         transcriptText += segment.textContent + '\n';
       });
       // Your code here
-      // const end = Date.now();
-      // console.log(`Time taken: ${end - start} ms`);
-      // console.log(transcriptText)
-      // transcriptText="hi my name is hieu and I like donuts";
+
+
 
       if (transcriptText) {
         try {
@@ -395,8 +393,10 @@ async function interactWithYouTubePage() {
           summary: 'No transcript found for this video.'
         });
       }
+      const end = Date.now();
+      console.log(`Time taken: ${end - start} ms`);
       
-    }, 2000); // Adjust timeout as needed for transcript to load
+    }, 500); // Adjust timeout as needed for transcript to load
   } else {
     chrome.runtime.sendMessage({
       action: 'youtubeTranscriptSummary',
